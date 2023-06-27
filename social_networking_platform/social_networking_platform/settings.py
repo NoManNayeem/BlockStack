@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,10 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*$uoo%we&i12a1i&t8l(e$n8axj3@+(0mvs&(yg3$al$-x4czp'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 
 ALLOWED_HOSTS = ['*']   # Chnage in Production
@@ -71,13 +75,35 @@ WSGI_APPLICATION = 'social_networking_platform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+## Database Config
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.getenv('DATABASES'))
+# }
+
+
+## Default SQLITE DB
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
     }
 }
+
+## Mongo DB Connection
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE'),
+#         'NAME': os.getenv('DB_NAME'),
+#         'ENFORCE_SCHEMA': os.getenv('DB_ENFORCE_SCHEMA'),
+#         'CLIENT': {
+#             'host': os.getenv('DB_CLIENT_HOST'),
+#         },
+#     },
+# }
+
 
 
 # Password validation
@@ -153,15 +179,6 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 ### CORS
-
-## Custom Auth Model
-# AUTH_USER_MODEL = 'core.models.User'
-
-
-# AUTHENTICATION_BACKENDS = [
-#     'django.contrib.auth.backends.ModelBackend',
-# ]
-
 
 ######## REST FrameWork #######
 REST_FRAMEWORK = { 
